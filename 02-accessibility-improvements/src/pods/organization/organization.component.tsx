@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
+import { A11y } from "react-native-a11y-order";
 import { IconButton } from "../../common/components";
 import { InfoDialog } from "./components/info-dialog.component";
 import * as vm from "./organization.vm";
@@ -24,18 +25,20 @@ export const Organization: React.FC<Props> = ({ org }) => {
         >
           <Image style={styles.avatar} source={{ uri: org.avatarUrl }} />
         </View>
-        <View
-          style={styles.row}
-          accessible={true}
-          accessibilityLabel={`About ${org.name}`}
-        >
-          <Text style={styles.description}>{org.description}</Text>
-          <IconButton
-            iconName="information-outline"
-            onPress={() => setOpen(true)}
-            accessibilityLabel={`More information about ${org.name}`}
-          />
-        </View>
+        <A11y.Order>
+          <View style={styles.row}>
+            <A11y.Index index={1}>
+              <Text style={styles.description}>{org.description}</Text>
+            </A11y.Index>
+            <A11y.Index index={2}>
+              <IconButton
+                iconName="information-outline"
+                onPress={() => setOpen(true)}
+                accessibilityLabel={`More information about ${org.name}`}
+              />
+            </A11y.Index>
+          </View>
+        </A11y.Order>
       </View>
 
       <InfoDialog org={org} open={open} onClose={() => setOpen(false)} />
